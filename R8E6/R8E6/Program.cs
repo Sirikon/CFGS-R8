@@ -7,31 +7,34 @@ namespace R8E6
     {
         static void Main(string[] args)
         {
-            if(args.Length != 2)
-            {
-                WrongNumberOfArguments();
-                return;
-            }
+            Console.WriteLine("Contador de caracteres en fichero");
+            Console.Write("Ruta del fichero: ");
+            String filePath = Console.ReadLine();
 
-            if (args[1].Length != 1)
+            Console.Write("Caracter a contar: ");
+            String characterLine = Console.ReadLine();
+
+            if (characterLine.Length != 1)
             {
                 SecondArgumentNotChar();
                 return;
             }
 
-            String filePath = args[0];
-            Char character = args[1][0];
-
-            FileInfo fi = new FileInfo(filePath);
-            if(!fi.Exists)
-            {
-                FileNotExists();
-                return;
-            }
+            Char character = characterLine[0];
 
             try
             {
+                FileInfo fi = new FileInfo(filePath);
+                if (!fi.Exists)
+                {
+                    FileNotExists();
+                    return;
+                }
                 CountCharInFile(filePath, character);
+            }
+            catch(ArgumentException ae)
+            {
+                FileNotExists();
             }
             catch(Exception e)
             {
@@ -39,16 +42,10 @@ namespace R8E6
             }
         }
 
-        static void WrongNumberOfArguments()
-        {
-            Console.WriteLine("Numero incorrecto de argumentos");
-            Help();
-        }
-
         static void SecondArgumentNotChar()
         {
             Console.WriteLine("El segundo argumento tiene que ser un único carácter");
-            Help();
+            EnterToExit();
         }
 
         static void FileNotExists()
@@ -60,12 +57,6 @@ namespace R8E6
         static void UnexpectedError()
         {
             Console.WriteLine("Hubo un error inesperado");
-            EnterToExit();
-        }
-
-        static void Help()
-        {
-            Console.WriteLine("\nUso: Ejercicio6.exe <fichero> <caracter>");
             EnterToExit();
         }
 
@@ -95,6 +86,7 @@ namespace R8E6
             file.Close();
 
             Console.WriteLine("En el fichero '{0}' el caracter '{1}' aparece {2} veces", filePath, character, count);
+            EnterToExit();
         }
     }
 }
